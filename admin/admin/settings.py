@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+DJK_APPS = [
+    'djk_sample',
+    'club_app',
+    'event_app',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,7 +50,8 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'filer',
     'mptt',
-]
+    'django_jinja_knockout' ,
+] + DJK_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
