@@ -1,6 +1,8 @@
 from django.db import models
 from django_better_admin_arrayfield.models.fields import ArrayField
 from django.contrib.postgres.fields import JSONField , IntegerRangeField ,DateTimeRangeField
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
 # Create your models here.
 
 class Categorie(models.Model):
@@ -9,7 +11,7 @@ class Categorie(models.Model):
     # TODO: Define fields here
     nom = models.CharField(max_length=245)
     description = models.TextField()
-    image = models.ImageField(upload_to='image_cat',)
+    image = FilerImageField(related_name='image_cat',on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=False)
     date_add = models.DateTimeField(auto_now_add=True)
     date_upd = models.DateTimeField(auto_now=True)
@@ -29,7 +31,7 @@ class SousCategorie(models.Model):
 
     # TODO: Define fields here
     nom = models.CharField(max_length=245)
-    image = models.ImageField(upload_to='image_sous',)
+    image = FilerImageField(related_name='image_sous',on_delete=models.DO_NOTHING)
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, related_name='categorie')
     status = models.BooleanField(default=False)
     date_add = models.DateTimeField(auto_now_add=True)
@@ -74,7 +76,7 @@ class Produit(models.Model):
     prix = IntegerRangeField(range(1, 50),null=True)
     periode_promo = DateTimeRangeField()
     tag = models.ManyToManyField(Tag, related_name='tag')
-    image = models.ImageField(upload_to='image_produit')
+    image = FilerImageField(related_name='image_produit',on_delete=models.DO_NOTHING)
     sous_cat = models.ForeignKey(SousCategorie, on_delete=models.CASCADE, related_name='sous_cat')
     status = models.BooleanField(default=False)
     date_add = models.DateTimeField(auto_now_add=True)
