@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'adminapp.apps.AdminappConfig',
     'django_better_admin_arrayfield.apps.DjangoBetterAdminArrayfieldConfig',
     'django_json_widget',
+    'easy_thumbnails',
+    'filer',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +128,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+THUMBNAIL_HIGH_RESOLUTION = True
+HUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
