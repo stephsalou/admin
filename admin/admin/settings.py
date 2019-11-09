@@ -29,11 +29,18 @@ ALLOWED_HOSTS = []
 
 
 DJK_APPS = [
-    'djk_sample',
-    'club_app',
-    'event_app',
+    'adminapp',
 ]
-# Application definition
+
+try:
+    import django_jinja
+    DJANGO_JINJA_APPS = [
+        'django_jinja',
+        'django_jinja.contrib._humanize',
+    ]
+except ImportError:
+    DJANGO_JINJA_APPS = []
+# # Application definition
 
 INSTALLED_APPS = [
     'admin_interface', 
@@ -44,15 +51,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adminapp.apps.AdminappConfig',
+    # 'adminapp.apps.AdminappConfig',
     'django_better_admin_arrayfield.apps.DjangoBetterAdminArrayfieldConfig',
     'django_json_widget',
     'easy_thumbnails',
     'filer',
     'mptt',
-    'django_jinja_knockout' ,
+]  + DJANGO_JINJA_APPS + [
+    'djk_ui',
+    'django_jinja_knockout',
 ] + DJK_APPS
 
+
+DJK_MIDDLEWARE = 'adminapp.middleware.ContextMiddleware'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,24 +72,27 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    DJK_MIDDLEWARE,
 ]
 
 ROOT_URLCONF = 'admin.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+
+TEMPLATES = [ {
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': ['templates'],
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+            # Next line is required only if project uses Django templates (DTL).
+            'admin.context_processors.template_context_processor'
+        ],
     },
+},
 ]
 
 WSGI_APPLICATION = 'admin.wsgi.application'
@@ -143,6 +157,12 @@ HUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.filters',
 )
 
+######
+# DJK_MIDDLEWARE = 'adminapp.middleware.ContextMiddleware'
+FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.TemporaryFileUploadHandler",)
+FILE_MAX_SIZE = 100 * 1024 * 1024
+
+####
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
