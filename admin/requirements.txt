@@ -17,7 +17,7 @@ django-polymorphic==2.0.3
 easy-thumbnails==2.6
 ensure==1.0.0
 idna==2.8
-Jinja2==2.10.3
+Jinja2==2.11.3
 lxml==4.4.1
 MarkupSafe==1.1.1
 Pillow==6.2.1
