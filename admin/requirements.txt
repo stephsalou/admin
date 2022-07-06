@@ -18,7 +18,7 @@ easy-thumbnails==2.6
 ensure==1.0.0
 idna==2.8
 Jinja2==2.10.3
-lxml==4.4.1
+lxml==4.9.1
 MarkupSafe==1.1.1
 Pillow==6.2.1
 psycopg2-binary==2.8.4
